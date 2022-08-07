@@ -145,6 +145,16 @@ public class Utility {
 		return true;
 	}
 
+	public static boolean populateXEntityType(EntityType<?> et, ServerLevel level, BlockPos savePos, int X,  boolean isBaby) {
+		Mob e;
+
+		for (int i = 0; i <= X; i++) {
+			e = (Mob) et.spawn(level, null, null, null, savePos.north(2).west(2), MobSpawnType.NATURAL, true, true);
+			e.setBaby(isBaby);
+		}
+		return true;
+	}
+
 	
 	public static void setName(ItemStack stack, String inString)
 	{

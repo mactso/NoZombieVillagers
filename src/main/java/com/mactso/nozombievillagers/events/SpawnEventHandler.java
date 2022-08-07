@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -36,25 +37,27 @@ public class SpawnEventHandler {
 			MobSpawnType reason = event.getSpawnReason();
 			boolean isSpawner = (reason == MobSpawnType.SPAWNER);
 			boolean isNatural = (reason == MobSpawnType.NATURAL);
+			boolean replace = false;
 			if (isSpawner || isNatural) {
 				ServerLevel serverLevel = (ServerLevel) event.getWorld();
 				Random rand = serverLevel.getRandom();
-
 				if (isSpawner) {
 					if (rand.nextDouble() * 100 < MyConfig.getOddsSpawnerJustZombie()) {
-						return;
+						replace = true;
 					}
 				}
 
 				if (isNatural) {
 					if (rand.nextDouble() * 100 < MyConfig.getOddsNaturalJustZombie()) {
-						return;
+						replace = true;
 					}
 				}
-
-				if (event.isCancelable()) {
-					Utility.populateEntityType(EntityType.ZOMBIE, serverLevel, zv.blockPosition(), 1, 1, false, false);
-					event.setCanceled(true);
+				
+				// this just loops-- spawner apparently keeps creating zombie villagers.
+				if (replace) {
+					event.setResult(Result.DENY);
+					Utility.populateXEntityType(EntityType.ZOMBIE, serverLevel, zv.blockPosition(), 1, zv.isBaby());
+					zv.kill();
 					return;
 				}
 
