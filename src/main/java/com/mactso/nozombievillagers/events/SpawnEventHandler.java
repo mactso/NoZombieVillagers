@@ -5,6 +5,7 @@ import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.mactso.nozombievillagers.Main;
 import com.mactso.nozombievillagers.config.MyConfig;
 import com.mactso.nozombievillagers.util.Utility;
 
@@ -15,13 +16,17 @@ import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
+@Mod.EventBusSubscriber(bus = Bus.FORGE, modid = Main.MODID)
 public class SpawnEventHandler {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	@SubscribeEvent(priority = EventPriority.LOW)
 	public void onSpawnEvent(LivingSpawnEvent.CheckSpawn event) {
 
+		int x = 3;
 		if (!(event.getWorld() instanceof ServerLevel)) {
 			return;
 		}

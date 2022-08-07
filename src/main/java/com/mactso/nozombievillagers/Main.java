@@ -17,7 +17,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public class Main {
 
 	    public static final String MODID = "nozombievillagers"; 
-	    public static SpawnEventHandler sem;
 	    
 	    public Main()
 	    {
@@ -29,8 +28,7 @@ public class Main {
 	    
 		@SubscribeEvent 
 		public void preInit (final FMLCommonSetupEvent event) {
-				sem = new SpawnEventHandler();
-				MinecraftForge.EVENT_BUS.register(sem);
+			MinecraftForge.EVENT_BUS.register(new SpawnEventHandler());
  		}  
 
 }
