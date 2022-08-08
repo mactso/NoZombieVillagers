@@ -129,17 +129,11 @@ public class Utility {
 		if (numZP < 0)
 			return false;
 		for (int i = 0; i <= numZP; i++) {
-			if (et == EntityType.PHANTOM) {
-				e = (Mob) et.spawn(level, null, null, null, savePos.north(2).west(2), MobSpawnType.SPAWNER, true, true);
-			} else {
-				e = (Mob) et.spawn(level, null, null, null, savePos.north(2).west(2), MobSpawnType.NATURAL, true, true);
-			}
-			if (persistant) {
+
+			e = (Mob) et.spawn(level, null, null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
+
+			if (persistant) 
 				e.setPersistenceRequired();
-			}
-			if (et == EntityType.ZOMBIFIED_PIGLIN) {
-				e.setAggressive(true);
-			}
 			e.setBaby(isBaby);
 		}
 		return true;
@@ -149,7 +143,7 @@ public class Utility {
 		Mob e;
 
 		for (int i = 0; i < X; i++) {
-			e = (Mob) et.spawn(level, null, null, null, savePos.north(2).west(2), MobSpawnType.NATURAL, true, true);
+			e = (Mob) et.spawn(level, null, null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
 			e.setBaby(isBaby);
 		}
 		return true;
