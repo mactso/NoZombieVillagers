@@ -13,6 +13,7 @@ import com.mactso.nozombievillagers.util.Utility;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Zombie;
@@ -35,11 +36,11 @@ public class SpawnEventHandler {
 	public void onSpawnEvent(LivingSpawnEvent.CheckSpawn event) {
 
 		int x = 3;
-		if (!(event.getWorld() instanceof ServerLevel)) {
+		if (!(event.getLevel() instanceof ServerLevel)) {
 			return;
 		}
 
-		if (event.getEntityLiving() instanceof ZombieVillager zv) {
+		if (event.getEntity() instanceof ZombieVillager zv) {
 
 			MobSpawnType reason = event.getSpawnReason();
 			boolean isSpawner = (reason == MobSpawnType.SPAWNER);
@@ -47,8 +48,8 @@ public class SpawnEventHandler {
 			boolean replace = false;
 			if (isSpawner || isNatural) {
 
-				ServerLevel serverLevel = (ServerLevel) event.getWorld();
-				Random rand = serverLevel.getRandom();
+				ServerLevel serverLevel = (ServerLevel) event.getLevel();
+				RandomSource rand = serverLevel.getRandom();
 				if (isSpawner) {
 					if (rand.nextDouble() * 100 < MyConfig.getOddsSpawnerJustZombie()) {
 						replace = true;
