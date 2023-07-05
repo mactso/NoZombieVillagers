@@ -17,7 +17,7 @@ description='nozombievillagers.'
     ordering="NONE"
     side="SERVER"
 
-[[dependencies.hardercheating]]
+[[dependencies.nozombievillagers]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.19,1.20)"

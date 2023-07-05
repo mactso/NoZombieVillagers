@@ -48,10 +48,12 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'nozombievillagers'
 
             mods {
                 nozombievillagers {
@@ -86,7 +88,7 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
 
-            property 'forge.enabledGameTestNamespaces', 'spawnbalanceutility'
+            property 'forge.enabledGameTestNamespaces', 'nozombievillagers'
 
             mods {
                 nozombievillagers {
