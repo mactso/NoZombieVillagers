@@ -1,10 +1,10 @@
 package com.mactso.nozombievillagers.events;
 
 import java.util.List;
-import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 import com.mactso.nozombievillagers.Main;
 import com.mactso.nozombievillagers.config.MyConfig;
@@ -20,9 +20,8 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -33,16 +32,14 @@ public class SpawnEventHandler {
 	private static final Logger LOGGER = LogManager.getLogger();
 
 	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onSpawnEvent(LivingSpawnEvent.CheckSpawn event) {
+	public void onSpawnEvent(MobSpawnEvent.FinalizeSpawn event) {
 
-		int x = 3;
 		if (!(event.getLevel() instanceof ServerLevel)) {
 			return;
 		}
 
 		if (event.getEntity() instanceof ZombieVillager zv) {
-
-			MobSpawnType reason = event.getSpawnReason();
+			MobSpawnType reason = event.getSpawnType();
 			boolean isSpawner = (reason == MobSpawnType.SPAWNER);
 			boolean isNatural = (reason == MobSpawnType.NATURAL);
 			boolean replace = false;

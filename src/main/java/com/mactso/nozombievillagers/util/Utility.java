@@ -3,6 +3,7 @@ package com.mactso.nozombievillagers.util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -134,7 +135,7 @@ public class Utility {
 			return false;
 		for (int i = 0; i <= numZP; i++) {
 
-			e = (Mob) et.spawn(level, null, null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
+			e = (Mob) et.spawn(level, (CompoundTag) null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
 
 			if (persistant) 
 				e.setPersistenceRequired();
@@ -147,7 +148,8 @@ public class Utility {
 		Mob e;
 
 		for (int i = 0; i < X; i++) {
-			e = (Mob) et.spawn(level, null, null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
+			e = (Mob) et.spawn(level, (CompoundTag) null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
+
 			e.setBaby(isBaby);
 		}
 		return true;
