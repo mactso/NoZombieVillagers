@@ -9,7 +9,7 @@ import com.mactso.nozombievillagers.events.SpawnEventHandler;
 
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.NetworkConstants;
+
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -22,8 +22,8 @@ public class Main {
 	    public Main()
 	    {
 	  		FMLJavaModLoadingContext.get().getModEventBus().register(this);
-			ModLoadingContext.get().registerExtensionPoint(DisplayTest.class,
-					() -> new DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));	
+//			ModLoadingContext.get().registerExtensionPoint(DisplayTest.class,
+//					() -> new DisplayTest(() -> NetworkConstants.IGNORESERVERONLY, (a, b) -> true));	
 	    	System.out.println(MODID + ": Registering Mod.");
  	        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON,MyConfig.COMMON_SPEC );
 	    }
