@@ -1,25 +1,26 @@
 package com.mactso.nozombievillagers.util;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemLore;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.phys.Vec3;
@@ -93,7 +94,7 @@ public class Utility {
 	}
 	
 
-	public static void updateEffect(LivingEntity e, int amplifier, MobEffect mobEffect, int duration) {
+	public static void updateEffect(LivingEntity e, int amplifier, Holder<MobEffect>  mobEffect, int duration) {
 		MobEffectInstance ei = e.getEffect(mobEffect);
 		if (amplifier == 10) {
 			amplifier = 20; // player "plaid" speed.
@@ -114,63 +115,23 @@ public class Utility {
 		return;
 	}
 
-	public static boolean populateEntityType(EntityType<?> et, ServerLevel level, BlockPos savePos, int range,
-			int modifier) {
-		boolean isBaby = false;
-		return populateEntityType(et, level, savePos, range, modifier, isBaby);
-	}
 
-	public static boolean populateEntityType(EntityType<?> et, ServerLevel level, BlockPos savePos, int range,
-			int modifier, boolean isBaby) {
-		boolean persistant = false;
-		return populateEntityType(et, level, savePos, range, modifier, persistant, isBaby);
-	}
-
-	public static boolean populateEntityType(EntityType<?> et, ServerLevel level, BlockPos savePos, int range,
-			int modifier, boolean persistant, boolean isBaby) {
-		int numZP;
-		Mob e;
-		numZP = level.random.nextInt(range) - modifier;
-		if (numZP < 0)
-			return false;
-		for (int i = 0; i <= numZP; i++) {
-
-			e = (Mob) et.spawn(level, (CompoundTag) null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
-
-			if (persistant) 
-				e.setPersistenceRequired();
-			e.setBaby(isBaby);
-		}
-		return true;
-	}
-
-	public static boolean populateXEntityType(EntityType<?> et, ServerLevel level, BlockPos savePos, int X,  boolean isBaby) {
-		Mob e;
-
-		for (int i = 0; i < X; i++) {
-			e = (Mob) et.spawn(level, (CompoundTag) null, null, savePos.north().west(), MobSpawnType.NATURAL, true, true);
-
-			e.setBaby(isBaby);
-		}
-		return true;
-	}
-
-	
 	public static void setName(ItemStack stack, String inString)
 	{
-		CompoundTag tag = stack.getOrCreateTagElement("display");
-		ListTag list = new ListTag();
-		list.add(StringTag.valueOf(inString));
-		tag.put("Name", list);
+        if (StringUtil.isBlank(inString)) {
+            stack.remove(DataComponents.CUSTOM_NAME);
+        } else {
+            stack.set(DataComponents.CUSTOM_NAME, Component.literal(inString));
+        }
 	}
 	
 	
 	public static void setLore(ItemStack stack, String inString)
 	{
-		CompoundTag tag = stack.getOrCreateTagElement("display");
-		ListTag list = new ListTag();
-		list.add(StringTag.valueOf(inString));
-		tag.put("Lore", list);
+        List<Component> list = new ArrayList<>();
+        list.add(Component.literal(inString));
+        stack.set(DataComponents.LORE, new ItemLore(list));
+
 	}
 	
 	public static boolean isNotNearWebs(BlockPos pos, ServerLevel serverLevel) {

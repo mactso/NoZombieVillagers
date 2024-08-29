@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[49,)"
+loaderVersion="[52,)"
 license="MIT License"
 [[mods]]
 modId="nozombievillagers"
@@ -14,13 +14,13 @@ description='nozombievillagers.'
 [[dependencies.nozombievillagers]]
     modId="forge"
     mandatory=true
-    versionRange="[49,)"
+    versionRange="[52,)"
     ordering="NONE"
     side="SERVER"
 
 [[dependencies.nozombievillagers]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.20.4,1.21)"
+    versionRange="[1.21.1,1.22)"
     ordering="NONE"
     side="SERVER"

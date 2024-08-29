@@ -7,13 +7,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.mactso.nozombievillagers.Main;
 import com.mactso.nozombievillagers.config.MyConfig;
-import com.mactso.nozombievillagers.util.Utility;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.monster.ZombieVillager;
@@ -91,7 +91,8 @@ public class SpawnEventHandler {
 
 					Block b = serverLevel.getBlockState(event.getEntity().blockPosition()).getBlock();
 					if (b == Blocks.AIR || b == Blocks.CAVE_AIR) {
-						Utility.populateXEntityType(EntityType.ZOMBIE, serverLevel, zv.blockPosition(), 1, zv.isBaby());
+						Mob e = (Mob) EntityType.ZOMBIE.spawn(serverLevel, zv.blockPosition().north().west(), MobSpawnType.NATURAL);
+						e.setBaby(zv.isBaby());
 					}
 					sendToCornfield(zv);
 				}
