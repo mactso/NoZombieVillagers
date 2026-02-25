@@ -1,7 +1,7 @@
-package com.mactso.nozombievillagers;
+package com.mactso.nozombievillagers.modloader.main;
 
-import com.mactso.nozombievillagers.config.MyConfig;
-import com.mactso.nozombievillagers.events.SpawnEventHandler;
+import com.mactso.nozombievillagers.modloader.config.MyConfig;
+import com.mactso.nozombievillagers.modloader.events.SpawnEventHandler;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

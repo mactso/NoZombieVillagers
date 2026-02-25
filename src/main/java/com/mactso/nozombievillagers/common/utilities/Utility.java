@@ -1,4 +1,4 @@
-package com.mactso.nozombievillagers.util;
+package com.mactso.nozombievillagers.common.utilities;
 
 
 import java.util.ArrayList;

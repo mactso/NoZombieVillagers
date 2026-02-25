@@ -1,10 +1,8 @@
-package com.mactso.nozombievillagers.config;
+package com.mactso.nozombievillagers.modloader.config;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import com.mactso.nozombievillagers.Main;
+import com.mactso.nozombievillagers.modloader.main.Main;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
@@ -15,7 +13,6 @@ import net.minecraftforge.fml.event.config.ModConfigEvent;
 @Mod.EventBusSubscriber(modid = Main.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class MyConfig {
 
-	private static final Logger LOGGER = LogManager.getLogger();
 	public static final Common COMMON;
 	public static final ForgeConfigSpec COMMON_SPEC;
 	static {
@@ -33,8 +30,13 @@ public class MyConfig {
 		return oddsNaturalJustZombie;
 	}
 
+	public static double getOddsStructureJustZombie() {
+		return oddsStructureJustZombie;
+	}
+
 	public static double oddsSpawnerJustZombie;
 	private static double oddsNaturalJustZombie;
+	private static double oddsStructureJustZombie;
 
 	@SubscribeEvent
 	public static void onModConfigEvent(final ModConfigEvent configEvent) {
@@ -46,25 +48,16 @@ public class MyConfig {
 	public static void bakeConfig() {
 		oddsSpawnerJustZombie = COMMON.oddsSpawnerJustZombie.get();
 		oddsNaturalJustZombie = COMMON.oddsNaturalJustZombie.get();
+		oddsStructureJustZombie = COMMON.oddsStructureJustZombie.get();
 	}
 
 	public static class Common {
-		public DoubleValue getOddsSpawnerJustZombie() {
-			return oddsSpawnerJustZombie;
-		}
-
-		public DoubleValue getOddsNaturalJustZombie() {
-			return oddsNaturalJustZombie;
-		}
 
 		public final DoubleValue oddsSpawnerJustZombie;
 		public final DoubleValue oddsNaturalJustZombie;
-
+		public final DoubleValue oddsStructureJustZombie;
+		
 		public Common(ForgeConfigSpec.Builder builder) {
-			String baseTrans = Main.MODID + ".config.";
-			String sectionTrans;
-
-			sectionTrans = baseTrans + "general.";
 
 			oddsSpawnerJustZombie = builder.comment("Odds Spawner ZV is just a Zombie")
 					.translation(Main.MODID + ".config." + "oddsSpawnerJustZombie")
@@ -74,6 +67,10 @@ public class MyConfig {
 					.translation(Main.MODID + ".config." + "oddsNaturalJustZombie")
 					.defineInRange("oddsNaturalJustZombie", () -> 0.0, 0.0, 100.0);
 
+			oddsStructureJustZombie = builder.comment("Odds Structure Zombie Villagers are just a Zombie.")
+					.translation(Main.MODID + ".config." + "oddsStructureJustZombie")
+					.defineInRange("oddsStructureJustZombie", () -> 99.9, 0.0, 100.0);
+			
 		}
 	}
 
