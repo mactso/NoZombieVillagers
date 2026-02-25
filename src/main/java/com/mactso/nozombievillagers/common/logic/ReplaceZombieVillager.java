@@ -8,9 +8,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.level.BaseSpawner;
@@ -46,20 +46,20 @@ public class ReplaceZombieVillager {
      */
 	public static void handleZombieVillagerSpawn(
 			ServerLevel level,
-			MobSpawnType spawnType,
+			EntitySpawnReason spawnType,
 			ZombieVillager zv,
 			BaseSpawner spawner
 	) {
 	
-		boolean isSpawner   = (spawnType == MobSpawnType.SPAWNER);
-		boolean isNatural   = (spawnType == MobSpawnType.NATURAL);
-		boolean isStructure = (spawnType == MobSpawnType.STRUCTURE);
+		boolean isSpawner   = (spawnType == EntitySpawnReason.SPAWNER);
+		boolean isNatural   = (spawnType == EntitySpawnReason.NATURAL);
+		boolean isStructure = (spawnType == EntitySpawnReason.STRUCTURE);
 	
 		if (!(isSpawner || isNatural || isStructure)) {
 			return;
 		}
 	
-	
+
 		boolean replace = shouldReplaceZombieVillager(level.getRandom(), spawnType);
 	
 		if (isSpawner) {
@@ -90,18 +90,18 @@ public class ReplaceZombieVillager {
 	 */
 	private static boolean shouldReplaceZombieVillager(
 			RandomSource random,
-			MobSpawnType spawnType
+			EntitySpawnReason spawnType
 	) {
 	
-		if (spawnType == MobSpawnType.STRUCTURE) {
+		if (spawnType == EntitySpawnReason.STRUCTURE) {
 			return random.nextDouble() * 100 < MyConfig.getOddsStructureJustZombie();
 		}
 	
-		if (spawnType == MobSpawnType.SPAWNER) {
+		if (spawnType == EntitySpawnReason.SPAWNER) {
 			return random.nextDouble() * 100 < MyConfig.getOddsSpawnerJustZombie();
 		}
 	
-		if (spawnType == MobSpawnType.NATURAL) {
+		if (spawnType == EntitySpawnReason.NATURAL) {
 			return random.nextDouble() * 100 < MyConfig.getOddsNaturalJustZombie();
 		}
 	
@@ -146,7 +146,8 @@ public class ReplaceZombieVillager {
     private static void spawnReplacementZombie(ServerLevel level, ZombieVillager zv) {
         var block = level.getBlockState(zv.blockPosition()).getBlock();
         if (block == Blocks.AIR || block == Blocks.CAVE_AIR) {
-            Mob zombie = EntityType.ZOMBIE.create(level);
+
+            Mob zombie = EntityType.ZOMBIE.create(level,EntitySpawnReason.NATURAL);
             if (zombie != null) {
                 zombie.setPos(zv.getX(), zv.getY(), zv.getZ()); // exact float coordinates
                 zombie.setBaby(zv.isBaby());

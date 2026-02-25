@@ -4,7 +4,7 @@ import com.mactso.nozombievillagers.common.logic.ReplaceZombieVillager;
 import com.mactso.nozombievillagers.modloader.main.Main;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
@@ -38,7 +38,7 @@ public class SpawnEventHandler {
 			return;
 		}
 
-		MobSpawnType spawnType = event.getSpawnType();
+		EntitySpawnReason spawnType = event.getSpawnReason();
 		BaseSpawner spawner = event.getSpawner();
 		
 		ReplaceZombieVillager.handleZombieVillagerSpawn(
