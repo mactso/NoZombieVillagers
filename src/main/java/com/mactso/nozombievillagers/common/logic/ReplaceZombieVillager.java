@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import com.mactso.nozombievillagers.modloader.config.MyConfig;
+import com.mojang.logging.LogUtils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter.ScopedCollector;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.phys.AABB;
 
 
@@ -32,6 +35,8 @@ import net.minecraft.world.phys.AABB;
  */
 
 public class ReplaceZombieVillager {
+	
+	private static final org.slf4j.Logger SPAWNERLOGGER = LogUtils.getLogger();
 
     /**
      * Evaluates a single {@link ZombieVillager} spawn and applies replacement logic.
@@ -64,13 +69,13 @@ public class ReplaceZombieVillager {
 		boolean replace = shouldReplaceZombieVillager(level.getRandom(), spawnType);
 	
 		if (isSpawner) {
-	
+			
 			// ALL spawner null handling lives here
 			if (spawner == null || spawner.getSpawnerBlockEntity() == null) {
 				return;
 			}
-	
-			CompoundTag tag = spawner.save(new CompoundTag());
+
+			CompoundTag tag = saveSpawnerToTag (spawner);
 			BlockPos pos = spawner.getSpawnerBlockEntity().getBlockPos();
 	
 			if (isSpawnerOverCap(level, tag, pos)) {
@@ -162,5 +167,17 @@ public class ReplaceZombieVillager {
             }
         }
     }
+    
+	/** 
+	 * Serializes a SpawnerBlockEntity into a CompoundTag. 
+	 * @param sbe the spawner block entity 
+	 * @return serialized NBT representing the spawner 
+	 */
+	public static CompoundTag saveSpawnerToTag(BaseSpawner spawner) {
+		ScopedCollector problemReporter = new ScopedCollector(SPAWNERLOGGER);
+	    TagValueOutput output = TagValueOutput.createWithoutContext(problemReporter);
+	    spawner.save(output);
+	    return output.buildResult();
+	}
 
 }

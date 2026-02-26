@@ -8,8 +8,8 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.Priority;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
@@ -27,8 +27,8 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 public class SpawnEventHandler {
 
 
-	@SubscribeEvent(priority = EventPriority.LOW)
-	public void onSpawnEvent(MobSpawnEvent.FinalizeSpawn event) {
+	@SubscribeEvent(priority = Priority.LOW)
+	public static void onSpawnEvent(MobSpawnEvent.FinalizeSpawn event) {
 
 		if (!(event.getLevel() instanceof ServerLevel serverLevel)) {
 			return;
