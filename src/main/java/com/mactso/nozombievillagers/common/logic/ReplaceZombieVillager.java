@@ -1,6 +1,7 @@
 package com.mactso.nozombievillagers.common.logic;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.mactso.nozombievillagers.modloader.config.MyConfig;
 
@@ -118,9 +119,15 @@ public class ReplaceZombieVillager {
 			BlockPos pos
 	) {
 	
-		int range = tag.getInt("SpawnRange");
-		int maxNearby = tag.getInt("MaxNearbyEntities");
-	
+		Optional<Integer> optRange = tag.getInt("SpawnRange");
+		if (optRange.isEmpty()) 
+			return false;
+		Optional<Integer> optMaxNearby = tag.getInt("MaxNearbyEntities");
+		if (optMaxNearby.isEmpty())
+			return false;
+		int range = optRange.get().intValue();
+		int maxNearby = optMaxNearby.get().intValue();
+		
 		AABB box = new AABB(
 				pos.west(range).getX(), pos.below(3).getY(), pos.north(range).getZ(),
 				pos.east(range).getX(), pos.above(3).getY(), pos.south(range).getZ()
